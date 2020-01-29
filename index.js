@@ -70,15 +70,8 @@ function processLength(list, callback) {
 
 function processLastItem(/* CODE HERE */stringList, callback) {
   /* CODE HERE */
-    stringList = ['foo', 'bar'];
-    callback(stringList);
+    return callback(stringList[stringList.length - 1]);
 }
-
-const stringFunction = function(string) {
-    return string;
-}
-
-console.log(processLastItem('foobar', stringFunction ));
 
 /**
  * ### Challenge `processSum`
@@ -96,16 +89,16 @@ console.log(processLastItem('foobar', stringFunction ));
  * 
  * [2] Invoking `processSum` passing `[]` and `(num) => num + 1000`,
  * should return 1000.
-*/
+**/
 
 function processSum(/* CODE HERE */numberList, callback) {
   /* CODE HERE */
-    numberList = [10, 20, 30];
-    callback(20);
+    const sum = numberList.reduce(function(accumulate, num1){
+    return accumulate + num1;
+},0)
+  return callback(sum);
 }
 
-const SUM = function(number) {
-}
 
 /**
  * ### Challenge `processProduct`
@@ -127,14 +120,8 @@ const SUM = function(number) {
 */
 function processProduct(/* CODE HERE */num1, num2, callback) {
   /* CODE HERE */
-    callback(num1, num2);
+    return callback(num1 * num2);
 }
-
-const PRODUCT = function(num1, num2) {
-    return num1 * num2;
-}
-
-console.log(processProduct(2, 7, PRODUCT));
 
 /**
  * ### Challenge `processContains`
@@ -158,6 +145,7 @@ console.log(processProduct(2, 7, PRODUCT));
 */
 function processContains(/* CODE HERE */item,list, callback) {
   /* CODE HERE */
+  return callback(list.includes(item));
 }
 
 /**
@@ -203,6 +191,11 @@ function processDuplicateFree(/* CODE HERE ONLY AFTER COMPLETING ALL OTHER TASKS
 */
 function getFullNames(/* CODE HERE */runners) {
   /* CODE HERE */
+  let fullName = [];
+  runners.forEach(function(runners){
+    fullName.push(`${runners.last_name}, ${runners.first_name}`);
+  })
+  return fullName;
 }
 
 /**
@@ -219,7 +212,12 @@ function getFullNames(/* CODE HERE */runners) {
 */
 function firstNamesAllCaps(/* CODE HERE */runners) {
   /* CODE HERE */
-}
+    const capitalizeArray = [];
+    runners.map(function (runners){
+        capitalizeArray.push(runners.first_name.toUpperCase());
+    });
+        return capitalizeArray;
+  }
 
 /**
  * ### Challenge `getRunnersByTShirtSize`
@@ -236,6 +234,17 @@ function firstNamesAllCaps(/* CODE HERE */runners) {
 */
 function getRunnersByTShirtSize(/* CODE HERE */runners, tShirtSize) {
   /* CODE HERE */
+/*  const tShirtsArray = [];*/
+  return runners.filter(function(runner) {
+/*      if (runners[runners.length - 1].shirt_size === tShirtSize){
+      tShirtsArray.push(runners[runners.length - 1].shirt_size);
+      }
+      else{
+
+      }*/
+      return runner.shirt_size === tShirtSize;
+})
+/*  return tShirtsArray;*/
 }
 
 /**
@@ -250,6 +259,10 @@ function getRunnersByTShirtSize(/* CODE HERE */runners, tShirtSize) {
 */
 function tallyUpDonations(/* CODE HERE */runners) {
   /* CODE HERE */
+  const donation = runners.reduce(function(accumulator, currentValue){
+      return accumulator + currentValue.donation;        
+  },0);
+  return donation;
 }
 
 /////////////// CLOSURES ///////////////
@@ -268,12 +281,18 @@ function tallyUpDonations(/* CODE HERE */runners) {
  * counter() // should return 2
  * etc
 */
-function counterMaker() {
+function counterMaker(maxNum) {
   // BROKEN CODE STARTS
-  const count = 0;
+  let count = 0;
   function counter() {
-    //++count;
+    if(count >= maxNum){
+        return count = 0;
+    }
+    else {
+        return count++;
+    }
   }
+  return counter;
   // BROKEN CODE ENDS
 }
 
@@ -297,8 +316,18 @@ function counterMaker() {
  * counter() // should return 0
  * etc
 */
-function counterMakerWithLimit(/* CODE HERE */) {
+
+function counterMakerWithLimit(/* CODE HERE */max) {
   /* CODE HERE */
+  let count = -1;
+  return function counter() {
+    if(count >= max){
+      count = 0;
+    }else {
+      count++;
+    }
+    return count;
+  }
 }
 
 /////////////// END OF CHALLENGE ///////////////
